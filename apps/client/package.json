@@ -1,0 +1,32 @@
+{
+  "name": "exo-form-bancaire",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "card-validator": "^8.1.1",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "yup": "^1.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "axios": "^1.5.1",
+    "eslint": "latest",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-next": "latest",
+    "formik": "^2.4.5",
+    "typescript": "latest"
+  }
+}

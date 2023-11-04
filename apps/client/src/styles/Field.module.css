@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-family: inherit;
+}
+
+.error {
+  color: red;
+}
+
+.label {
+  color: black;
+}
+
+.input {
+  border-radius: 8px;
+  padding: 0.5rem;
+  border: 1px solid grey;
+  outline: 0;
+}
+
+.input:focus {
+  border: 1px solid black;
+}
