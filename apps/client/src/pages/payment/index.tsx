@@ -1,11 +1,11 @@
 import { Form, Formik } from 'formik';
 import Head from 'next/head';
 import React, { useCallback } from 'react';
-import styles from '@/styles/Home.module.css';
-import FormikField from '@/components/FormikField';
 import * as yup from 'yup';
 import valid from 'card-validator';
 import Axios from 'axios';
+import FormikField from '@/components/FormikField';
+import styles from '@/styles/Home.module.css';
 import routes from '@/routes';
 
 type InitialValues = {

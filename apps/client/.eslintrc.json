@@ -5,10 +5,11 @@
     "airbnb-typescript"
   ],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./apps/client/tsconfig.json"
   },
   "rules": {
     "react/jsx-props-no-spreading": "off",
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "import/extensions": "off"
   }
 }

@@ -1,75 +1,8 @@
-import { Form, Formik } from 'formik';
 import Head from 'next/head';
-import React, { useCallback } from 'react';
+import React from 'react';
 import styles from '@/styles/Home.module.css';
-import FormikField from '@/components/FormikField';
-import * as yup from 'yup';
-import valid from 'card-validator';
-import Axios from 'axios';
-import routes from '@/routes';
-
-type InitialValues = {
-  mail: string,
-  cardNumber: string,
-  cardValidity: string,
-  cardCryptogram: string,
-  cardHolder: string,
-  amount: number,
-};
-
-const initialValues = {
-  mail: '',
-  cardNumber: '',
-  cardValidity: '',
-  cardCryptogram: '',
-  cardHolder: '',
-  amount: 0,
-} as InitialValues;
-
-const validationSchema = yup.object().shape({
-  mail: yup.string().email(),
-  cardNumber: yup.string().test({
-    name: 'test-credit-card-number',
-    message: 'Veuillez rentrer un numéro de carte de crédit valide.',
-    test: (value) => {
-      const cardInfo = valid.number(value);
-      return cardInfo.isValid;
-    },
-  }).required('Veuillez rentrer un numéro de carte de crédit'),
-  cardValidity: yup.string().test({
-    name: 'test-credit-card-expirationDate',
-    message: 'Veuillez rentrer une date d"expiration valide.',
-    test: (value) => (valid.expirationDate(value).isValid),
-  }).required('Veuillez rentrer une date d"expiration.'),
-  cardCryptogram: yup.string().test({
-    name: 'test-credit-card-cvv',
-    message: 'Veuillez rentrer un cryptogramme valide.',
-    test: (value) => (valid.cvv(value).isValid),
-  }).required('Veuillez rentrer un cryptogramme.'),
-  cardHolder: yup.string().min(3).required('Veuillez rentrer le nom du détenteur de la carte'),
-  amount: yup.number().min(1, 'Le montant ne peut être inférieur à 1.').required('Veuillez rentrer la somme à payer.'),
-});
 
 function Home() {
-  const handleSubmit = useCallback(async (values: InitialValues) => {
-    console.log('Datas sent : ', values);
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      mode: 'cors',
-    };
-
-    try {
-      const response = await Axios.post(`http://localhost:3001${routes.api.pay()}`, values, config);
-
-      console.log('response : ', response);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
   return (
     <main className={styles.main}>
       <Head>
