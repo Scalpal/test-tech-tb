@@ -7,6 +7,7 @@ import Axios from 'axios';
 import FormikField from '@/components/FormikField';
 import styles from '@/styles/pages/Payment.module.css';
 import routes from '@/routes';
+import Button from '@/components/Button';
 
 type InitialValues = {
   mail: string,
@@ -79,6 +80,8 @@ function Payment() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <h1 className={styles.mainTitle}>Paiement</h1>
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -127,21 +130,11 @@ function Payment() {
               placeholder="Nom du porteur"
             />
 
-            {/* <FormikField
-              type="text"
-              name="amount"
-              value={values.amount}
-              label="Montant"
-              placeholder="Montant"
-            /> */}
-
-            <button
-              type="submit"
-              className={styles.button}
+            <Button
               disabled={!(dirty && isValid)}
             >
               Payer
-            </button>
+            </Button>
           </Form>
         )}
       </Formik>
