@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
 import Head from 'next/head';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import * as yup from 'yup';
 import valid from 'card-validator';
 import Axios from 'axios';
@@ -15,7 +15,6 @@ type InitialValues = {
   cardValidity: string,
   cardCryptogram: string,
   cardHolder: string,
-  amount: number,
 };
 
 const initialValues = {
@@ -24,11 +23,10 @@ const initialValues = {
   cardValidity: '',
   cardCryptogram: '',
   cardHolder: '',
-  amount: 0,
 } as InitialValues;
 
 const validationSchema = yup.object().shape({
-  mail: yup.string().email(),
+  mail: yup.string().email('Veuillez rentrer une adresse e-mail valide'),
   cardNumber: yup.string().test({
     name: 'test-credit-card-number',
     message: 'Veuillez rentrer un numéro de carte de crédit valide.',
@@ -48,11 +46,13 @@ const validationSchema = yup.object().shape({
     test: (value) => (valid.cvv(value).isValid),
   }).required('Veuillez rentrer un cryptogramme.'),
   cardHolder: yup.string().min(3).required('Veuillez rentrer le nom du détenteur de la carte'),
-  amount: yup.number().min(1, 'Le montant ne peut être inférieur à 1.').required('Veuillez rentrer la somme à payer.'),
 });
 
 function Payment() {
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
   const handleSubmit = useCallback(async (values: InitialValues) => {
+    setIsSubmitted(true);
     console.log('Datas sent : ', values);
 
     const config = {
@@ -85,10 +85,20 @@ function Payment() {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
+        validateOnBlur={false}
         onSubmit={(values: InitialValues) => handleSubmit(values)}
       >
-        {({ values, isValid, dirty }) => (
+        {({
+          values, isValid, dirty, errors,
+        }) => (
           <Form className={styles.form}>
+
+            <div className={styles.errorsContainer}>
+              {(errors && isSubmitted) && Object.entries(errors).map(([key, value]: any) => (
+                <p key={key}>{value}</p>
+              ))}
+            </div>
+
             <FormikField
               type="text"
               name="mail"
@@ -136,6 +146,7 @@ function Payment() {
               Payer
             </Button>
           </Form>
+
         )}
       </Formik>
     </main>

@@ -8,22 +8,24 @@ type Props = {
   name: string;
   label?: string;
   placeholder: string;
+  showErrors?: boolean;
 };
 
 const defaultProps = {
   label: '',
+  showErrors: false,
 };
 
 function FormikField(props: Props) {
   const {
-    type, value, name, label, placeholder, ...otherProps
+    type, value, name, label, placeholder, showErrors, ...otherProps
   } = props;
 
   return (
     <Field name={name}>
       {({ field, meta }: any) => (
         <div className={styles.wrapper}>
-          {meta.touched && meta.error ? (
+          {showErrors && meta.touched && meta.error ? (
             <p className={styles.error}>{meta.error}</p>
           ) : (
             null

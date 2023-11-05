@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'; // ES6
+import classNames from 'classnames';
 import styles from '@/styles/Components/Button.module.css';
 
 type Props = {
@@ -12,7 +13,10 @@ function Button(props: Props) {
   const { children, onClickAction, disabled } = props;
   return (
     <button
-      className={styles.button}
+      className={classNames(
+        styles.button,
+        disabled && styles.disabled,
+      )}
       type="submit"
       onClick={onClickAction}
       disabled={disabled}
