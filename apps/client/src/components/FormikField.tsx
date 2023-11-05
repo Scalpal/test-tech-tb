@@ -1,6 +1,6 @@
 import { Field } from 'formik';
 import React from 'react';
-import styles from '@/styles/Field.module.css';
+import styles from '@/styles/Components/Field.module.css';
 
 type Props = {
   type: string;

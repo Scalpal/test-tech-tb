@@ -1,8 +1,150 @@
 import Head from 'next/head';
-import React from 'react';
-import styles from '@/styles/Home.module.css';
+import React, { useCallback, useEffect, useState } from 'react';
+import styles from '@/styles/pages/Home.module.css';
+import { Product } from '@/types/Product/Product';
+import Button from '@/components/Button';
+
+const products: Product[] = [
+  {
+    id: 1, name: 'T-shirt Blanc', price: 19.99, stock: 100,
+  },
+  {
+    id: 2, name: 'Jean Slim Noir', price: 49.99, stock: 75,
+  },
+  {
+    id: 3, name: 'Chaussures de Sport', price: 89.99, stock: 50,
+  },
+  {
+    id: 4, name: 'Veste en Cuir', price: 199.99, stock: 25,
+  },
+  {
+    id: 5, name: "Robe d'Été", price: 29.99, stock: 60,
+  },
+  {
+    id: 6, name: 'Cravate en Soie', price: 24.99, stock: 40,
+  },
+  {
+    id: 7, name: 'Sac à Main', price: 59.99, stock: 30,
+  },
+  {
+    id: 8, name: 'Chapeau Panama', price: 34.99, stock: 20,
+  },
+  {
+    id: 9, name: 'Écharpe en Laine', price: 29.99, stock: 45,
+  },
+  {
+    id: 10, name: 'Ceinture en Cuir', price: 39.99, stock: 70,
+  },
+  {
+    id: 11, name: 'Montre Classique', price: 149.99, stock: 15,
+  },
+  {
+    id: 12, name: 'Bottes en Cuir', price: 99.99, stock: 40,
+  },
+  {
+    id: 13, name: 'Lunettes de Soleil', price: 79.99, stock: 50,
+  },
+  {
+    id: 14, name: 'Chemise à Carreaux', price: 44.99, stock: 55,
+  },
+  {
+    id: 15, name: 'Pull-over Gris', price: 64.99, stock: 35,
+  },
+  {
+    id: 16, name: 'Short en Jean', price: 39.99, stock: 60,
+  },
+  {
+    id: 17, name: "Sandales d'Été", price: 49.99, stock: 40,
+  },
+  {
+    id: 18, name: 'Bijoux Fantaisie', price: 14.99, stock: 85,
+  },
+  {
+    id: 19, name: 'Pantalon Chino', price: 54.99, stock: 50,
+  },
+  {
+    id: 20, name: 'Blouse Florale', price: 39.99, stock: 40,
+  },
+];
 
 function Home() {
+  const [cart, setCart] = useState<any>();
+
+  const addToCart = useCallback((item: any) => {
+    if (item.stock === 0) return;
+
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const localStorageCartString = localStorage.getItem('cart') as string;
+
+      // If empty cart, create an array
+      if (localStorageCartString === null) {
+        const newItem = {
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: 1,
+        };
+        const newCart = [newItem];
+
+        setCart(newCart);
+        localStorage.setItem('cart', JSON.stringify(newCart));
+
+        return;
+      }
+
+      // If not empty
+      const localStorageCart = JSON.parse(localStorageCartString);
+
+      // Check if item already in cart
+      const existingItemIndex = localStorageCart
+        .findIndex((product: Product) => product.id === item.id);
+
+      if (existingItemIndex !== -1) {
+        const updatedCart = [...localStorageCart];
+        const currentItem = { ...updatedCart[existingItemIndex] };
+
+        // If there's already all the stock of the item in cart, you can't add more of it
+        if (item.stock === currentItem.quantity) return;
+
+        updatedCart[existingItemIndex] = {
+          ...currentItem,
+          quantity: currentItem.quantity + 1,
+        };
+
+        setCart(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+        return;
+      }
+
+      const newItem = {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: 1,
+      };
+
+      const updatedCart = [...localStorageCart, newItem];
+      setCart(updatedCart);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const localStorageCartString = localStorage.getItem('cart') as string;
+
+      if (localStorageCartString === null) {
+        setCart([]);
+
+        return;
+      }
+
+      const localStorageCart = JSON.parse(localStorageCartString);
+      setCart(localStorageCart);
+    }
+  }, []);
+
   return (
     <main className={styles.main}>
       <Head>
@@ -12,6 +154,39 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <h1 className={styles.mainTitle}>Nos produits</h1>
+
+      <div className={styles.productContainer}>
+        {products.map((product: Product) => (
+          <div
+            key={product.name}
+            className={styles.productCard}
+          >
+            {cart?.findIndex((item: any) => item.id === product.id) !== -1 && (
+              <span className={styles.productInCartLabel}>
+                {cart && cart[cart.findIndex((item: any) => item.id === product.id)].quantity}
+                {' '}
+                dans le panier
+              </span>
+            )}
+
+            <p>{product.name}</p>
+            <p>
+              {product.price}
+              €
+            </p>
+            <p>
+              {product.stock}
+              {' '}
+              pièces restantes
+            </p>
+
+            <Button onClickAction={() => addToCart(product)}>
+              Ajouter au panier
+            </Button>
+          </div>
+        ))}
+      </div>
     </main>
   );
 }

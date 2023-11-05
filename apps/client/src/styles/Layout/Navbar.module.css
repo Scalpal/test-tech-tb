@@ -1,0 +1,29 @@
+.container {
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-family: inherit;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: #70C1B3;
+}
+
+.logo {
+  font-family: 1.1rem;
+}
+
+.linksWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.icon {
+  width: 25px;
+  height: 25px;
+}

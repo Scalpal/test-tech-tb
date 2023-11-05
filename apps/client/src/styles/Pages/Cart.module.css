@@ -1,0 +1,30 @@
+.main {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.mainTitle {
+  font-size: 2.3rem;
+  text-align: center;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.cartContainer {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 1rem;
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px 0px #00000040;
+  font-weight: 100;
+}
