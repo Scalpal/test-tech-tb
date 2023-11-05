@@ -1,21 +1,22 @@
-import express from "express";
+import express, { Express } from "express";
 import config from "./config";
-import routes from "./routes";
 import cors from "cors";
-import validateCard from "./src/middlewares/validateCard";
 import { Request, Response } from "express";
+import prepareRoutes from "./src/prepareRoutes";
+import BaseModel from "./src/db/models/BaseModel";
+import knex from "knex";
 
-const app = express();
+const app: Express = express();
 app.use(express.json());
 app.use(cors());
+
+const db = knex(config.db)
+BaseModel.knex(db)
 
 app.use((req: Request, res: Response, next: () => void) => {
   next();
 })
 
-app.post(routes.pay(), validateCard, (req: Request, res: Response) => {
-
-  res.send({ message: `Merci de votre paiement de ${req.body.amount}€.` })
-})
+prepareRoutes({ app })
 
 app.listen(config.PORT, () => console.log("Listening on port " + config.PORT));

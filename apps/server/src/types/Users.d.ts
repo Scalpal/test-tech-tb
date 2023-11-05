@@ -5,5 +5,4 @@ type Users = {
   first_name: string;
   last_name: string;
   email: string;
-  credit_card: CreditCards;
 }
