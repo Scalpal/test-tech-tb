@@ -17,6 +17,8 @@ function prepareOrderRoutes ({ app }: { app: Express }) {
 
       if (cart.length === 0) {
         res.send({ error: "Empty cart" })
+
+        return;
       }
 
       const totalPrice = cart.reduce((acc: number, { price, quantity }: any) => acc + (price * quantity), 0)

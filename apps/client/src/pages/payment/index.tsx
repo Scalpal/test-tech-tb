@@ -3,10 +3,12 @@ import Head from 'next/head';
 import React, { useCallback, useState } from 'react';
 import * as yup from 'yup';
 import valid from 'card-validator';
+import { useRouter } from 'next/router';
 import FormikField from '@/components/FormikField';
 import styles from '@/styles/pages/Payment.module.css';
 import Button from '@/components/Button';
 import makeAnOrder from '@/services/makeAnOrder';
+import routes from '@/routes';
 
 type InitialValues = {
   mail: string,
@@ -48,6 +50,7 @@ const validationSchema = yup.object().shape({
 });
 
 function Payment() {
+  const router = useRouter();
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const handleSubmit = useCallback(async (values: InitialValues) => {
@@ -73,8 +76,9 @@ function Payment() {
 
     if (!error && data.status === 500) {
       localStorage.setItem('cart', JSON.stringify([]));
+      router.push(routes.paymentConfirmation());
     }
-  }, []);
+  }, [router]);
 
   return (
     <main className={styles.main}>

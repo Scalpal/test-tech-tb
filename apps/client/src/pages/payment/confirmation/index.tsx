@@ -47,6 +47,4 @@ function ConfirmationOrder() {
   );
 }
 
-// http://localhost:3000/payment/confirmation
-
 export default ConfirmationOrder;

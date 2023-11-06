@@ -3,8 +3,13 @@ const routes = {
   login: () => '/login',
   cart: () => '/cart',
   payment: () => '/payment',
+  paymentConfirmation: () => '/payment/confirmation',
   api: {
     baseUrl: () => 'http://localhost:3001',
+    users: {
+      register: () => '/api/register',
+      login: () => '/api/login',
+    },
     products: {
       all: () => '/api/products',
     },
