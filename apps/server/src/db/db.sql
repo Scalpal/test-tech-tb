@@ -16,7 +16,8 @@ CREATE TABLE users (
 
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  userId INT NOT NULL REFERENCES users(id)
+  userId INT NOT NULL REFERENCES users(id),
+  total NUMERIC(10, 2) NOT NULL
 );
 
 CREATE TABLE orders_products_relation (
@@ -48,3 +49,9 @@ INSERT INTO products (name, price, stock) VALUES
     ('Bijoux Fantaisie', 14.99, 85),
     ('Pantalon Chino', 54.99, 50),
     ('Blouse Florale', 39.99, 40);
+
+INSERT INTO users (lastname, firstname, email, password) VALUES (
+  'test', 'test', 'test@gmail.com', 'test123*'
+)
+
+INSERT INTO orders (userId, total) VALUES (1, 10)

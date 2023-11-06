@@ -3,7 +3,6 @@ import * as yup from "yup";
 import valid from "card-validator";
 
 const validationSchema = yup.object().shape({
-  mail: yup.string().email(),
   cardNumber: yup.string().test({
     name: 'test-credit-card-number',
     message: 'Veuillez rentrer un numéro de carte de crédit valide.',
@@ -23,18 +22,15 @@ const validationSchema = yup.object().shape({
     test: (value) => (valid.cvv(value).isValid),
   }).required('Veuillez rentrer un cryptogramme.'),
   cardHolder: yup.string().min(3).required('Veuillez rentrer le nom du détenteur de la carte'),
-  amount: yup.number().min(1, 'Le montant ne peut être inférieur à 1.').required('Veuillez rentrer la somme à payer.'),
 });
 
 const validateCard = async (req: Request, res: Response, next: () => void) => {
-  console.log(req.body);
-
   try {
-    await validationSchema.validate(req.body);
+    await validationSchema.validate(req.body.card);
 
     next()
   } catch (error) {
-    res.status(400).send({ message: "Données invalides." })
+    res.status(400).send({ message: "Invalid card" })
   }
 }
 

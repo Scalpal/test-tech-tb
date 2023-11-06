@@ -6,8 +6,8 @@ import { Express } from "express";
 
 const prepareRoutes = (ctx: { app: Express }) => {
   prepareUserRoutes(ctx);
-  prepareProductRoutes(ctx);
   prepareOrderRoutes(ctx);
+  prepareProductRoutes(ctx);
 }
 
 export default prepareRoutes;

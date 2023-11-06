@@ -32,7 +32,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  onClickAction: () => console.log('test'),
+  onClickAction: () => null,
   disabled: false,
 };
 

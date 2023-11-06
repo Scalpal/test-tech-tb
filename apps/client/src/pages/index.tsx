@@ -3,72 +3,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styles from '@/styles/pages/Home.module.css';
 import { Product } from '@/types/Product/Product';
 import Button from '@/components/Button';
-
-const products: Product[] = [
-  {
-    id: 1, name: 'T-shirt Blanc', price: 19.99, stock: 100,
-  },
-  {
-    id: 2, name: 'Jean Slim Noir', price: 49.99, stock: 75,
-  },
-  {
-    id: 3, name: 'Chaussures de Sport', price: 89.99, stock: 50,
-  },
-  {
-    id: 4, name: 'Veste en Cuir', price: 199.99, stock: 25,
-  },
-  {
-    id: 5, name: "Robe d'Été", price: 29.99, stock: 60,
-  },
-  {
-    id: 6, name: 'Cravate en Soie', price: 24.99, stock: 40,
-  },
-  {
-    id: 7, name: 'Sac à Main', price: 59.99, stock: 30,
-  },
-  {
-    id: 8, name: 'Chapeau Panama', price: 34.99, stock: 20,
-  },
-  {
-    id: 9, name: 'Écharpe en Laine', price: 29.99, stock: 45,
-  },
-  {
-    id: 10, name: 'Ceinture en Cuir', price: 39.99, stock: 70,
-  },
-  {
-    id: 11, name: 'Montre Classique', price: 149.99, stock: 15,
-  },
-  {
-    id: 12, name: 'Bottes en Cuir', price: 99.99, stock: 40,
-  },
-  {
-    id: 13, name: 'Lunettes de Soleil', price: 79.99, stock: 50,
-  },
-  {
-    id: 14, name: 'Chemise à Carreaux', price: 44.99, stock: 55,
-  },
-  {
-    id: 15, name: 'Pull-over Gris', price: 64.99, stock: 35,
-  },
-  {
-    id: 16, name: 'Short en Jean', price: 39.99, stock: 60,
-  },
-  {
-    id: 17, name: "Sandales d'Été", price: 49.99, stock: 40,
-  },
-  {
-    id: 18, name: 'Bijoux Fantaisie', price: 14.99, stock: 85,
-  },
-  {
-    id: 19, name: 'Pantalon Chino', price: 54.99, stock: 50,
-  },
-  {
-    id: 20, name: 'Blouse Florale', price: 39.99, stock: 40,
-  },
-];
+import useGetProducts from '@/hooks/useGetProducts';
 
 function Home() {
   const [cart, setCart] = useState<any>();
+
+  const { productsData, productsIsLoading } = useGetProducts();
+  const products = !productsIsLoading ? productsData : [];
 
   const addToCart = useCallback((item: any) => {
     if (item.stock === 0) return;
@@ -159,7 +100,7 @@ function Home() {
       <div className={styles.productContainer}>
         {products.map((product: Product) => (
           <div
-            key={product.name}
+            key={product.id}
             className={styles.productCard}
           >
             {cart?.findIndex((item: any) => item.id === product.id) !== -1 && (

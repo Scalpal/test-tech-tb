@@ -4,7 +4,11 @@ const routes = {
   cart: () => '/cart',
   payment: () => '/payment',
   api: {
-    pay: () => '/api/pay',
+    baseUrl: () => 'http://localhost:3001',
+    products: {
+      all: () => '/api/products',
+    },
+    order: () => '/api/order',
   },
 };
 

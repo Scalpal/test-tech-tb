@@ -3,11 +3,10 @@ import Head from 'next/head';
 import React, { useCallback, useState } from 'react';
 import * as yup from 'yup';
 import valid from 'card-validator';
-import Axios from 'axios';
 import FormikField from '@/components/FormikField';
 import styles from '@/styles/pages/Payment.module.css';
-import routes from '@/routes';
 import Button from '@/components/Button';
+import makeAnOrder from '@/services/makeAnOrder';
 
 type InitialValues = {
   mail: string,
@@ -17,13 +16,13 @@ type InitialValues = {
   cardHolder: string,
 };
 
-const initialValues = {
+const initialValues: InitialValues = {
   mail: '',
   cardNumber: '',
   cardValidity: '',
   cardCryptogram: '',
   cardHolder: '',
-} as InitialValues;
+};
 
 const validationSchema = yup.object().shape({
   mail: yup.string().email('Veuillez rentrer une adresse e-mail valide'),
@@ -53,21 +52,27 @@ function Payment() {
 
   const handleSubmit = useCallback(async (values: InitialValues) => {
     setIsSubmitted(true);
-    console.log('Datas sent : ', values);
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
+    if (!(typeof window !== 'undefined' && window.localStorage)) {
+      return;
+    }
+
+    const localStorageCartString = localStorage.getItem('cart') as string;
+    const localStorageCart = JSON.parse(localStorageCartString);
+
+    const body = {
+      card: {
+        ...values,
       },
-      mode: 'cors',
+      cart: [
+        ...localStorageCart,
+      ],
     };
 
-    try {
-      const response = await Axios.post(`http://localhost:3001${routes.api.pay()}`, values, config);
+    const [error, data] = await makeAnOrder(body);
 
-      console.log('response : ', response);
-    } catch (error) {
-      console.log(error);
+    if (!error && data.status === 500) {
+      localStorage.setItem('cart', JSON.stringify([]));
     }
   }, []);
 

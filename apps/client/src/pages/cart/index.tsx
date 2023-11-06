@@ -86,11 +86,14 @@ function Cart() {
             </div>
           ))
         ) : (
-          <p>Votre panier est vide</p>
+          <p className={styles.emptyCartText}>Votre panier est vide</p>
         )}
       </div>
 
-      <Button onClickAction={() => router.push(routes.payment())}>
+      <Button
+        onClickAction={() => router.push(routes.payment())}
+        disabled={cart.length === 0}
+      >
         Passer au paiement
       </Button>
 

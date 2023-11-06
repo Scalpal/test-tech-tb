@@ -1,14 +1,19 @@
 import express, { Express } from "express";
 import config from "./config";
-import cors from "cors";
 import { Request, Response } from "express";
 import prepareRoutes from "./src/prepareRoutes";
 import BaseModel from "./src/db/models/BaseModel";
 import knex from "knex";
+import cors from "cors";
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+}
 
 const app: Express = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 const db = knex(config.db)
 BaseModel.knex(db)
