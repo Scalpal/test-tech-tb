@@ -92,7 +92,7 @@ function Cart() {
 
       <Button
         onClickAction={() => router.push(routes.payment())}
-        disabled={cart.length === 0}
+        disabled={cart?.length === 0}
       >
         Passer au paiement
       </Button>
