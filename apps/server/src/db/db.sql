@@ -11,7 +11,8 @@ CREATE TABLE users (
   lastname VARCHAR(255),
   firstname VARCHAR(255),
   email VARCHAR(255),
-  password VARCHAR(255)
+  passwordHash TEXT,
+  passwordSalt TEXT
 );
 
 CREATE TABLE orders (
@@ -50,8 +51,8 @@ INSERT INTO products (name, price, stock) VALUES
     ('Pantalon Chino', 54.99, 50),
     ('Blouse Florale', 39.99, 40);
 
-INSERT INTO users (lastname, firstname, email, password) VALUES (
-  'test', 'test', 'test@gmail.com', 'test123*'
+INSERT INTO users (lastname, firstname, email, passwordHash, passwordSalt) VALUES (
+  'test', 'test', 'test@gmail.com', 'test123*', 'test123*'
 )
 
 INSERT INTO orders (userId, total) VALUES (1, 10)
