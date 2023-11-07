@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 import styles from '@/styles/Pages/Cart.module.css';
 import Button from '@/components/Button';
 import routes from '@/routes';
@@ -7,6 +8,7 @@ import routes from '@/routes';
 function Cart() {
   const router = useRouter();
   const [cart, setCart] = useState<any>();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const deleteFromCart = useCallback((itemId: number) => {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -42,6 +44,8 @@ function Cart() {
     }
   }, [deleteFromCart]);
 
+  const redirectToPayment = useCallback(() => (isLoggedIn ? router.push('/payment') : router.push(`${routes.login()}?pay=true`)), [isLoggedIn, router]);
+
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
       const localStorageCartString = localStorage.getItem('cart') as string;
@@ -56,6 +60,14 @@ function Cart() {
       setCart(localStorageCart);
     }
   }, []);
+
+  useEffect(() => {
+    const { token } = parseCookies(null);
+
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, [router]);
 
   return (
     <main className={styles.main}>
@@ -91,7 +103,7 @@ function Cart() {
       </div>
 
       <Button
-        onClickAction={() => router.push(routes.payment())}
+        onClickAction={() => redirectToPayment()}
         disabled={cart?.length === 0}
       >
         Passer au paiement

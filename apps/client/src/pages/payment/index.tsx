@@ -4,11 +4,13 @@ import React, { useCallback, useState } from 'react';
 import * as yup from 'yup';
 import valid from 'card-validator';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 import FormikField from '@/components/FormikField';
 import styles from '@/styles/pages/Payment.module.css';
 import Button from '@/components/Button';
 import makeAnOrder from '@/services/makeAnOrder';
 import routes from '@/routes';
+import checkToken from '@/services/checkToken';
 
 type InitialValues = {
   mail: string,
@@ -48,6 +50,20 @@ const validationSchema = yup.object().shape({
   }).required('Veuillez rentrer un cryptogramme.'),
   cardHolder: yup.string().min(3).required('Veuillez rentrer le nom du détenteur de la carte'),
 });
+
+export const getServerSideProps = async (context: any) => {
+  const { token } = parseCookies(context);
+
+  const tokenCheck = await checkToken(token);
+
+  if (!tokenCheck.valid) {
+    return tokenCheck;
+  }
+
+  return {
+    props: {},
+  };
+};
 
 function Payment() {
   const router = useRouter();

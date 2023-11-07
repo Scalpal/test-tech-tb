@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
 import Button from '@/components/Button';
 import routes from '@/routes';
 import Loader from '@/components/Loader';
 import styles from '@/styles/Pages/ConfirmationPayment.module.css';
+import checkToken from '@/services/checkToken';
+
+export const getServerSideProps = async (context: any) => {
+  const { token } = parseCookies(context);
+
+  const tokenCheck = await checkToken(token);
+
+  if (!tokenCheck.valid) {
+    return tokenCheck;
+  }
+
+  return {
+    props: {},
+  };
+};
 
 function ConfirmationOrder() {
   const router = useRouter();

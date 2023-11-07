@@ -23,7 +23,7 @@ function Navbar() {
     if (token) {
       setIsLoggedIn(true);
     }
-  }, []);
+  }, [router]);
 
   return (
     <nav className={styles.container}>
@@ -40,7 +40,9 @@ function Navbar() {
           onClick={() => router.push(routes.cart())}
         />
 
-        <Link href={routes.register()}>S&apos;inscrire</Link>
+        {!isLoggedIn && (
+          <Link href={routes.register()}>S&apos;inscrire</Link>
+        )}
 
         {isLoggedIn ? (
           <Button onClickAction={() => logout()}>Se déconnecter</Button>

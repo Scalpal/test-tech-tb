@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import * as yup from 'yup';
 import { setCookie } from 'nookies';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types'; // ES6
 import FormikField from '@/components/FormikField';
 import Button from '@/components/Button';
 import styles from '@/styles/Pages/Login.module.css';
@@ -24,7 +25,22 @@ const validationSchema = yup.object().shape({
   password: yup.string().required(),
 });
 
-function Login() {
+export const getServerSideProps = (context: any) => {
+  const { pay } = context.query;
+
+  return {
+    props: {
+      pay: pay ? true : null,
+    },
+  };
+};
+
+type Props = {
+  pay: boolean | null;
+};
+
+function Login(props: Props) {
+  const { pay } = props;
   const router = useRouter();
 
   const handleSubmit = useCallback(async (values: InitialValues) => {
@@ -36,9 +52,9 @@ function Login() {
         path: '/',
       });
 
-      router.push(routes.home());
+      router.push(pay === true ? routes.payment() : routes.home());
     }
-  }, [router]);
+  }, [router, pay]);
 
   return (
     <main className={styles.main}>
@@ -77,5 +93,13 @@ function Login() {
     </main>
   );
 }
+
+Login.propTypes = {
+  pay: PropTypes.bool,
+};
+
+Login.defaultProps = {
+  pay: null,
+};
 
 export default Login;
