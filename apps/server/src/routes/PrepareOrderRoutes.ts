@@ -59,7 +59,6 @@ function prepareOrderRoutes ({ app }: { app: Express }) {
         .where("id", order.id);
       
       res.send({
-        status: RESULT_STATUS.success,
         message: `Thanks for your order of ${totalPrice}€.`,
         order: newOrder
       })

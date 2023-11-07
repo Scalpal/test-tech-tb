@@ -8,7 +8,7 @@ function prepareProductRoutes ({ app }: { app: Express }) {
     async(req, res) => {
       const products = await ProductModel.query().select("*");
 
-      res.status(RESULT_STATUS.success).send({ result: products })
+      res.send({ result: products })
     }
   )
 }

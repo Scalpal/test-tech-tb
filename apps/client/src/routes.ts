@@ -1,5 +1,6 @@
 const routes = {
   home: () => '/',
+  register: () => '/register',
   login: () => '/login',
   cart: () => '/cart',
   payment: () => '/payment',

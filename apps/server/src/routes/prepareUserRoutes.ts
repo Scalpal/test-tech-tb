@@ -34,7 +34,6 @@ function prepareUserRoutes ({ app }: { app: Express }) {
         }).returning("*")
 
         res
-          .status(RESULT_STATUS.success)
           .send({
             message: "Registered successfully",
           });
@@ -77,7 +76,7 @@ function prepareUserRoutes ({ app }: { app: Express }) {
           { expiresIn: config.security.jwt.expiresIn }
         );
 
-        res.status(500).send({ result: jwt });
+        res.send({ result: jwt });
       } catch (error) {
         res.status(404).send({ error })
       }
