@@ -5,10 +5,7 @@ import OrderModel from "../db/models/OrderModel";
 import { Order } from "../types/Orders";
 import ProductModel from "../db/models/ProductModel";
 import auth from "../middlewares/auth";
-import jsonwebtoken from "jsonwebtoken"
-import config from "../../config";
 import getLoggedUserIdByJwt from "../services/getLoggedUserIdByJwt";
-
 
 function prepareOrderRoutes({ app }: { app: Express }) {
   app.get(

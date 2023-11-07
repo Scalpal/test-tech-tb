@@ -2,7 +2,6 @@ import { Express } from "express";
 import validateRegisterBody from "../middlewares/validateRegisterBody";
 import UserModel from "../db/models/UserModel";
 import hashPassword from "../db/hashpassword";
-import { RESULT_STATUS } from "../types/ResultStatus";
 import config from "../../config";
 import jsonwebtoken from "jsonwebtoken";
 import validateLoginBody from "../middlewares/validateLoginBody";

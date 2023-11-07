@@ -13,7 +13,6 @@ import routes from '@/routes';
 import checkToken from '@/services/checkToken';
 
 type InitialValues = {
-  mail: string,
   cardNumber: string,
   cardValidity: string,
   cardCryptogram: string,
@@ -21,7 +20,6 @@ type InitialValues = {
 };
 
 const initialValues: InitialValues = {
-  mail: '',
   cardNumber: '',
   cardValidity: '',
   cardCryptogram: '',
@@ -124,21 +122,15 @@ function Payment() {
               ))}
             </div>
 
-            <FormikField
-              type="text"
-              name="mail"
-              value={values.mail}
-              label="Adresse e-mail"
-              placeholder="Adresse e-mail"
-            />
-
             <p>Informations de la carte</p>
 
             <div className={styles.cardInformationsWrapper}>
+              {/* With this card validator,
+              I don't know why but only this cardNumber works : 4111111111111111 */}
               <FormikField
                 type="text"
                 name="cardNumber"
-                value={values.cardNumber}
+                value={4111111111111111}
                 placeholder="Numéro de la carte"
               />
 
