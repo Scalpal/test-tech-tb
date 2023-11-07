@@ -1,0 +1,47 @@
+.main {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.mainTitle {
+  font-size: 2.3rem;
+  text-align: center;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.ordersContainer {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: 1rem;
+}
+
+.orderCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px 0px #00000040;
+  font-weight: 100;
+  position: relative;
+}
+
+.orderTitle {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.productRowsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.orderTotal {
+  font-weight: 400;
+}

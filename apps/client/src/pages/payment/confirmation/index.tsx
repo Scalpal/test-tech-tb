@@ -64,7 +64,9 @@ function ConfirmationOrder() {
 
       <Loader />
 
-      <Button>
+      <Button
+        onClickAction={() => router.push(routes.home())}
+      >
         Retourner à l&apos;accueil
       </Button>
     </main>

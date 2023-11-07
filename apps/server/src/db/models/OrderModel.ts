@@ -18,7 +18,8 @@ class OrderModel extends BaseModel {
           from: "orders.id",
           through: {
             from: "orders_products_relation.orderid",
-            to: "orders_products_relation.productid"
+            to: "orders_products_relation.productid",
+            extra: ["quantity"]
           },
           to: "products.id"
         }

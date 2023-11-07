@@ -88,9 +88,9 @@ function Payment() {
       ],
     };
 
-    const [error, data] = await makeAnOrder(body);
+    const [error] = await makeAnOrder(body);
 
-    if (!error && data.status === 500) {
+    if (!error) {
       localStorage.setItem('cart', JSON.stringify([]));
       router.push(routes.paymentConfirmation());
     }

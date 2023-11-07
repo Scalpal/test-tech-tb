@@ -150,7 +150,7 @@ function Home() {
             <Button
               onClickAction={() => addToCart(product)}
               disabled={
-                product.stock === 0
+                product.stock <= 0
                 || (cart?.length > 0
                 && (cart[cart.findIndex((item: any) => item.id === product.id)]?.quantity
                   >= product.stock))

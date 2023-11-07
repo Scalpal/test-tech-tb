@@ -4,18 +4,44 @@ import OrderProductRelationModel from "../db/models/OrderProductRelationModel";
 import OrderModel from "../db/models/OrderModel";
 import { Order } from "../types/Orders";
 import ProductModel from "../db/models/ProductModel";
-import UserModel from "../db/models/UserModel";
-import { RESULT_STATUS } from "../types/ResultStatus";
 import auth from "../middlewares/auth";
+import jsonwebtoken from "jsonwebtoken"
+import config from "../../config";
+import getLoggedUserIdByJwt from "../services/getLoggedUserIdByJwt";
 
 
-function prepareOrderRoutes ({ app }: { app: Express }) {
+function prepareOrderRoutes({ app }: { app: Express }) {
+  app.get(
+    "/api/order",
+    auth,
+    async (req, res) => {
+      // Get logged user id
+      const userId = getLoggedUserIdByJwt(req);
+      if (userId === null) {
+        res.status(500).send({ error: "Invalid token" })
+
+        return;
+      }
+
+      const orders = await OrderModel.query().withGraphFetched("products").where('userid', userId);
+
+      res.send({ orders: orders });
+    }
+  )
   app.post(
     "/api/order",
     auth,
     validateCard,
     async (req, res) => {
       const cart = req.body.cart;
+
+      // Get logged user id
+      const userId = getLoggedUserIdByJwt(req);
+      if (userId === null) {
+        res.status(500).send({ error: "Invalid token" })
+
+        return;
+      }
 
       if (cart.length === 0) {
         res.send({ error: "Empty cart" })
@@ -28,7 +54,7 @@ function prepareOrderRoutes ({ app }: { app: Express }) {
       // Create the order
       const order: Order = await OrderModel.query()
         .insert({
-          userid: 1,
+          userid: userId,
           total: totalPrice
         })
 
@@ -48,6 +74,10 @@ function prepareOrderRoutes ({ app }: { app: Express }) {
       await Promise.all(cart.map(async (product: any) => {
         const productCurrentStock = concernedProducts.find((item: any) => item.id === product.id)?.stock as number;
         const newStock = productCurrentStock - product.quantity;
+
+        if (newStock <= 0) {
+          res.send({ error: `No stock available for product : ${product.id} - ${product.name}` });
+        }
 
         await ProductModel.query()
           .update({
