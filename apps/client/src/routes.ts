@@ -3,6 +3,7 @@ const routes = {
   register: () => '/register',
   login: () => '/login',
   cart: () => '/cart',
+  order: () => '/orders',
   payment: () => '/payment',
   paymentConfirmation: () => '/payment/confirmation',
   api: {
