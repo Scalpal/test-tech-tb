@@ -21,8 +21,8 @@ type UseGetProductsResult = {
   refreshProducts: any,
 };
 
-function useGetProducts(): UseGetProductsResult {
-  const url = routes.api.baseUrl() + routes.api.products.all();
+function useGetProducts(searchValue: string): UseGetProductsResult {
+  const url = routes.api.baseUrl() + routes.api.products.all(searchValue);
   const config = {
     revalidateOnFocus: false,
   };

@@ -12,7 +12,7 @@ const routes = {
       login: () => '/api/login',
     },
     products: {
-      all: () => '/api/products',
+      all: (searchValue: string) => `/api/products?search=${searchValue}`,
     },
     order: () => '/api/order',
   },

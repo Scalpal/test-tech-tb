@@ -12,6 +12,17 @@
   font-family: inherit;
 }
 
+.searchInput {
+  width: 30%;
+  margin: 0 auto;
+  padding: 0.5rem;
+  border: 0;
+  outline: 0;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 200;
+}
+
 .productContainer {
   display: grid;
   grid-template-rows: auto;
@@ -39,4 +50,8 @@
   border-bottom-left-radius: 10px;
   border-top-right-radius: 10px;
   transition-duration: 400ms;
+}
+
+.noResultsText {
+  text-align: center;
 }

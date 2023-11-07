@@ -7,8 +7,9 @@ import useGetProducts from '@/hooks/useGetProducts';
 
 function Home() {
   const [cart, setCart] = useState<any>();
+  const [searchValue, setSearchValue] = useState<string>('');
 
-  const { productsData, productsIsLoading } = useGetProducts();
+  const { productsData, productsIsLoading } = useGetProducts(searchValue);
   const products = !productsIsLoading ? productsData : [];
 
   const addToCart = useCallback((item: any) => {
@@ -86,6 +87,22 @@ function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    const input = document.querySelector('#searchProductInput') as HTMLInputElement;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        setSearchValue(input?.value);
+      }
+    };
+
+    input.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      input.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <main className={styles.main}>
       <Head>
@@ -97,8 +114,15 @@ function Home() {
 
       <h1 className={styles.mainTitle}>Nos produits</h1>
 
+      <input
+        type="text"
+        id="searchProductInput"
+        className={styles.searchInput}
+        placeholder="Rechercher un produit"
+      />
+
       <div className={styles.productContainer}>
-        {products.map((product: Product) => (
+        {products.length > 0 ? (products.map((product: Product) => (
           <div
             key={product.id}
             className={styles.productCard}
@@ -122,11 +146,26 @@ function Home() {
               pièces restantes
             </p>
 
-            <Button onClickAction={() => addToCart(product)}>
+            {/* Disabled if product is out of stock OR already all items are taken in cart */}
+            <Button
+              onClickAction={() => addToCart(product)}
+              disabled={
+                product.stock === 0
+                || (cart?.length > 0
+                && (cart[cart.findIndex((item: any) => item.id === product.id)]?.quantity
+                  >= product.stock))
+              }
+            >
               Ajouter au panier
             </Button>
           </div>
-        ))}
+        ))) : (
+          <p className={styles.noResultsText}>
+            {searchValue.length > 0
+              ? `Aucun produit ne correspond à la recherche : ${searchValue}`
+              : 'Aucun produit en vente actuellement'}
+          </p>
+        )}
       </div>
     </main>
   );
