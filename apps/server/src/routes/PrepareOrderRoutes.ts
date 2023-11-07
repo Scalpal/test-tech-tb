@@ -6,11 +6,13 @@ import { Order } from "../types/Orders";
 import ProductModel from "../db/models/ProductModel";
 import UserModel from "../db/models/UserModel";
 import { RESULT_STATUS } from "../types/ResultStatus";
+import auth from "../middlewares/auth";
 
 
 function prepareOrderRoutes ({ app }: { app: Express }) {
   app.post(
     "/api/order",
+    auth,
     validateCard,
     async (req, res) => {
       const cart = req.body.cart;
