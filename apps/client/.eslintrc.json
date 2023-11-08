@@ -5,7 +5,7 @@
     "airbnb-typescript"
   ],
   "parserOptions": {
-    "project": "./apps/client/tsconfig.json"
+    "sourceType": "module"
   },
   "rules": {
     "react/jsx-props-no-spreading": "off",
