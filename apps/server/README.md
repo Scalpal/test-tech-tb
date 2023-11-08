@@ -44,8 +44,8 @@ This route :
 
 ```json
 {
-	"firstName": "John",
-	"lastName": "Smith",
+	"firstname": "John",
+	"lastname": "Smith",
 	"email": "john@smith.com",
 	"password": "MyNameIsJohn123!*"
 }
