@@ -34,7 +34,7 @@ jobs:
       - name: Docker Compose Build
         run: docker-compose -f docker-compose.yml build
         env:
-          DB_URL: { { secrets.DB_URL } }
+          DB_URL: ${{ secrets.DB_URL }}
 
       - name: Docker Compose Push
         run: |
