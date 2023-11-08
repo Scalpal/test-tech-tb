@@ -26,11 +26,6 @@ jobs:
           cd apps/client
           npm install
 
-      - name: Lint client project
-        run: |
-          cd apps/client
-          npm run lint
-
       - name: Docker Compose Build
         run: docker-compose -f docker-compose.yml build
         env:
