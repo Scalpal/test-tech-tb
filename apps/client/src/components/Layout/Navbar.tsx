@@ -40,7 +40,9 @@ function Navbar() {
           onClick={() => router.push(routes.cart())}
         />
 
-        <Link href={routes.order()}>Mes commandes</Link>
+        {isLoggedIn && (
+          <Link href={routes.order()}>Mes commandes</Link>
+        )}
 
         {!isLoggedIn && (
           <Link href={routes.register()}>S&apos;inscrire</Link>

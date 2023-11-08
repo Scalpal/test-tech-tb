@@ -1,7 +1,23 @@
 import Head from 'next/head';
 import React from 'react';
+import { parseCookies } from 'nookies';
 import styles from '@/styles/Pages/Orders.module.css';
 import useGetOrders from '@/hooks/useGetOrders';
+import checkToken from '@/services/checkToken';
+
+export const getServerSideProps = async (context: any) => {
+  const { token } = parseCookies(context);
+
+  const tokenCheck = await checkToken(token);
+
+  if (!tokenCheck.valid) {
+    return tokenCheck;
+  }
+
+  return {
+    props: {},
+  };
+};
 
 function Orders() {
   const { ordersData, ordersIsLoading } = useGetOrders();
