@@ -6,7 +6,7 @@ import valid from 'card-validator';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
 import FormikField from '@/components/FormikField';
-import styles from '@/styles/pages/Payment.module.css';
+import styles from "@/styles/Pages/Payment.module.css";
 import Button from '@/components/Button';
 import makeAnOrder from '@/services/makeAnOrder';
 import routes from '@/routes';

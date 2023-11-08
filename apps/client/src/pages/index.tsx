@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React, { useCallback, useEffect, useState } from 'react';
-import styles from '@/styles/pages/Home.module.css';
+import styles from '@/styles/Pages/Home.module.css';
 import { Product } from '@/types/Product/Product';
 import Button from '@/components/Button';
 import useGetProducts from '@/hooks/useGetProducts';
