@@ -1,0 +1,41 @@
+name: test-tech-tb-CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Packages
+        run: echo "${{ secrets.TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Install server dependencies
+        run: |
+          cd apps/server
+          npm install
+
+      - name: Install client dependencies
+        run: |
+          cd apps/client
+          npm install
+
+      - name: Lint client project
+        run: |
+          cd apps/client
+          npm run lint
+
+      - name: Docker Compose Build
+        run: docker-compose -f docker-compose.yml build
+        env:
+          DB_URL: { { secrets.DB_URL } }
+
+      - name: Docker Compose Push
+        run: |
+          docker-compose -f docker-compose.yml push
