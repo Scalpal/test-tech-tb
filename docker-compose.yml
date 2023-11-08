@@ -1,0 +1,42 @@
+version: "3"
+services:
+  client:
+    build:
+      context: ./apps/client
+      dockerfile: Dockerfile
+    image: docker.pkg.github.com/scalpal/test-tech-tb/test-client:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - test_network
+
+  server:
+    build:
+      context: ./apps/server
+      dockerfile: Dockerfile
+    image: docker.pkg.github.com/scalpal/test-tech-tb/test-server:latest
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_URL=postgres://postgres:ur_password@db:5432/test
+    depends_on:
+      - db
+    networks:
+      - test_network
+
+  db:
+    image: "postgres:alpine"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: test
+      POSTGRES_PASSWORD: ur_password
+    ports:
+      - "5432:5432"
+    networks:
+      - test_network
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d
+
+networks:
+  test_network:
+    driver: bridge

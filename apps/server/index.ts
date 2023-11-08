@@ -7,7 +7,7 @@ import knex from "knex";
 import cors from "cors";
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }
 
