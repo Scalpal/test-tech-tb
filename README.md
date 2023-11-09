@@ -7,7 +7,16 @@
 
 There you go, the project is cloned into your pc.
 
-Now you can go into `/apps` folder.
+## Run the project with Docker
+
+- First, you will need to go inside the project : `cd test-tech-tb`
+
+Now you can run these commands following the order :
+
+- `docker-compose build` to build the images defined in the `docker-compose.yml` file
+- `docker-compose up` to start the container
+- There you go, the project is fully launched locally (`client` and `server`)
+- Head to this link `http://localhost:3000` and enjoy !
 
 ## Stack used
 
