@@ -20,14 +20,13 @@ type InitialValues = {
 };
 
 const initialValues: InitialValues = {
-  cardNumber: '',
+  cardNumber: '4111111111111111',
   cardValidity: '',
   cardCryptogram: '',
   cardHolder: '',
 };
 
 const validationSchema = yup.object().shape({
-  mail: yup.string().email('Veuillez rentrer une adresse e-mail valide'),
   cardNumber: yup.string().test({
     name: 'test-credit-card-number',
     message: 'Veuillez rentrer un numéro de carte de crédit valide.',
@@ -130,7 +129,7 @@ function Payment() {
               <FormikField
                 type="text"
                 name="cardNumber"
-                value={4111111111111111}
+                value={values.cardNumber}
                 placeholder="Numéro de la carte"
               />
 
